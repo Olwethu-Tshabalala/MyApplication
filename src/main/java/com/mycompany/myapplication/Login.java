@@ -13,6 +13,7 @@ import java.util.regex.Pattern;
 public class Login {
     private Registration registration;
 
+    
     // Constructor
     public Login(Registration registration) {
         this.registration = registration;
@@ -31,10 +32,31 @@ public class Login {
 
         String password = registration.getPassword();
 
-        String passwordPattern =
-                "^(?=.*[A-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9]).{8,}$";
+        boolean hasCapital = false;
+        boolean hasNumber = false;
+        boolean hasSpecial = false;
 
-        return Pattern.matches(passwordPattern, password);
+        for (int i = 0; i < password.length(); i++) {
+
+            char character = password.charAt(i);
+
+            if (Character.isUpperCase(character)) {
+                hasCapital = true;
+            }
+
+            if (Character.isDigit(character)) {
+                hasNumber = true;
+            }
+
+            if (!Character.isLetterOrDigit(character)) {
+                hasSpecial = true;
+            }
+        }
+
+        return password.length() >= 8
+                && hasCapital
+                && hasNumber
+                && hasSpecial;
     }
 
     // Checks cell phone number
@@ -42,7 +64,7 @@ public class Login {
 
         String cellPhoneNumber = registration.getCellPhoneNumber();
 
-        String phonePattern = "^\\+27[0-9]{1,10}$";
+        String phonePattern = "^\\+27[0-9]{9}$";
 
         return Pattern.matches(phonePattern, cellPhoneNumber);
     }
@@ -51,21 +73,18 @@ public class Login {
     public String registerUser() {
 
         if (!checkUserName()) {
-
             return "Username is not correctly formatted; please ensure that your username contains an underscore and is no more than five characters in length.";
-
-        } else if (!checkPasswordComplexity()) {
-
-            return "Password is not correctly formatted; please ensure that the password contains at least eight characters, a capital letter, a number, and a special character.";
-
-        } else if (!checkCellPhoneNumber()) {
-
-            return "Cell phone number incorrectly formatted or does not contain international code.";
-
-        } else {
-
-            return "User registered successfully.";
         }
+
+        if (!checkPasswordComplexity()) {
+            return "Password is not correctly formatted; please ensure that the password contains at least eight characters, a capital letter, a number, and a special character.";
+        }
+
+        if (!checkCellPhoneNumber()) {
+            return "Cell number is incorrectly formatted or does not contain an international code; please correct the number and try again.";
+        }
+
+        return "User registered successfully.";
     }
 
     // Checks login details
@@ -79,15 +98,12 @@ public class Login {
     public String returnLoginStatus(String enteredUsername, String enteredPassword) {
 
         if (loginUser(enteredUsername, enteredPassword)) {
-
             return "Welcome " + registration.getFirstName()
                     + ", " + registration.getLastName()
-                    + " it is great to see you again.";
-
-        } else {
-
-            return "Username or password incorrect, please try again.";
+                    + " it is great to see you.";
         }
+
+        return "Username or password incorrect, please try again.";
     }
     
 }
