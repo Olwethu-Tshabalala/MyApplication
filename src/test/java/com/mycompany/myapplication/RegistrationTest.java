@@ -15,7 +15,7 @@ public class RegistrationTest {
     
     public RegistrationTest() {
     }
-    @Test
+     @Test
     public void testCheckUserNameCorrect() {
 
         Registration registration = new Registration(
@@ -134,10 +134,6 @@ public class RegistrationTest {
                 "User registered successfully.",
                 login.registerUser()
         );
-    }
-
-    @Test
-    public void testSomeMethod() {
     }
     
 }

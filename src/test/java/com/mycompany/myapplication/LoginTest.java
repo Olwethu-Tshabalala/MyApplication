@@ -15,7 +15,7 @@ public class LoginTest {
     
     public LoginTest() {
     }
-     @Test
+    @Test
     public void testLoginSuccessful() {
 
         Registration registration = new Registration(
@@ -58,7 +58,7 @@ public class LoginTest {
         );
     }
 
-    // Test successful login message
+    // Test successful login status
     @Test
     public void testReturnLoginStatusSuccessful() {
 
@@ -73,7 +73,7 @@ public class LoginTest {
         Login login = new Login(registration);
 
         assertEquals(
-                "Welcome Kyle, Smith it is great to see you again.",
+                "Welcome Kyle, Smith it is great to see you.",
                 login.returnLoginStatus(
                         "kyl_1",
                         "Ch&&sec@ke99!"
@@ -81,7 +81,7 @@ public class LoginTest {
         );
     }
 
-    // Test failed login message
+    // Test failed login status
     @Test
     public void testReturnLoginStatusFailed() {
 
@@ -102,10 +102,6 @@ public class LoginTest {
                         "wrongPassword"
                 )
         );
-    }
-
-    @Test
-    public void testSomeMethod() {
     }
     
 }
