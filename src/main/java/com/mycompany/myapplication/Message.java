@@ -5,12 +5,14 @@
 package com.mycompany.myapplication;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  *
  * @author Student
  */
 public class Message {
+    private static ArrayList<Message> storedMessages = new ArrayList<>();
     
     private String messageID;
     private int messageNumber;
@@ -93,5 +95,54 @@ public class Message {
     public int returnTotalMessagess() {
         return 1; 
     }
+    // Stores messages in a JSON file
+public String storeMessage() {
+
+    storedMessages.add(this);
+
+    try (FileWriter writer = new FileWriter("messages.json")) {
+
+        writer.write("[\n");
+
+        for (int i = 0; i < storedMessages.size(); i++) {
+
+            Message savedMessage = storedMessages.get(i);
+
+            writer.write("  {\n");
+            writer.write("    \"MessageID\": \"" 
+                    + savedMessage.messageID + "\",\n");
+            writer.write("    \"MessageHash\": \"" 
+                    + savedMessage.messageHash + "\",\n");
+            writer.write("    \"Recipient\": \"" 
+                    + escapeJson(savedMessage.recipient) + "\",\n");
+            writer.write("    \"Message\": \"" 
+                    + escapeJson(savedMessage.message) + "\"\n");
+            writer.write("  }");
+
+            if (i < storedMessages.size() - 1) {
+                writer.write(",");
+            }
+
+            writer.write("\n");
+        }
+
+        writer.write("]\n");
+
+        return "Message successfully stored.";
+
+    } catch (IOException e) {
+        storedMessages.remove(this);
+        return "Unable to store message.";
+    }
+}
+
+// Handles special characters in JSON text
+private String escapeJson(String text) {
+    return text.replace("\\", "\\\\")
+            .replace("\"", "\\\"")
+            .replace("\n", "\\n")
+            .replace("\r", "\\r")
+            .replace("\t", "\\t");
+}
     
 }
