@@ -6,6 +6,7 @@ package com.mycompany.myapplication;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random; 
 
 /**
  *
@@ -19,6 +20,17 @@ public class Message {
     private String recipient;
     private String message;
     private String messageHash;
+    
+    // Generates a random ten-digit message ID
+public static String generateMessageID() {
+
+    Random random = new Random();
+
+    long number = 1000000000L
+            + (long) (random.nextDouble() * 9000000000L);
+
+    return String.valueOf(number);
+}
 
     // Constructor
     public Message(String messageID, int messageNumber,
@@ -43,19 +55,29 @@ public class Message {
     // Creates the message hash
     public String createMessageHash() {
 
-        String firstTwoDigits = messageID.substring(0, 2);
+    String firstTwoDigits = messageID.substring(0, 2);
 
-        String[] words = message.trim().split("\\s+");
+    String trimmedMessage = message.trim();
 
-        String firstWord = words[0].replaceAll("[^a-zA-Z0-9]", "");
-        String lastWord = words[words.length - 1]
-                .replaceAll("[^a-zA-Z0-9]", "");
+    int firstSpace = trimmedMessage.indexOf(' ');
+    int lastSpace = trimmedMessage.lastIndexOf(' ');
 
-        messageHash = (firstTwoDigits + ":"
-                + messageNumber + ":"
-                + firstWord + lastWord).toUpperCase();
+    String firstWord;
+    String lastWord;
 
-        return messageHash;
+    if (firstSpace == -1) {
+        firstWord = trimmedMessage;
+        lastWord = trimmedMessage;
+    } else {
+        firstWord = trimmedMessage.substring(0, firstSpace);
+        lastWord = trimmedMessage.substring(lastSpace + 1);
+    }
+
+    messageHash = (firstTwoDigits + ":"
+            + messageNumber + ":"
+            + firstWord + lastWord).toUpperCase();
+
+    return messageHash;
     }
     // Checks the length of the message
     public String checkMessageLength() {
@@ -74,13 +96,13 @@ public class Message {
     public String SentMessage(int choice) {
 
         if (choice == 1) {
-            return "Message successfully sent.";
-        } else if (choice == 2) {
-            return "Press 0 to delete the message.";
-        } else if (choice == 3) {
-            return "Message successfully stored.";
-        } else {
-            return "Invalid option. Please choose again.";
+        return "Message successfully sent.";
+    } else if (choice == 2) {
+        return "Press 0 to delete the message.";
+    } else if (choice == 3) {
+        return storeMessage();
+    } else {
+        return "Invalid option. Please choose again.";
         }
     }
     // Displays the message details
@@ -93,7 +115,7 @@ public class Message {
 
     // Returns the total number of messages sent
     public int returnTotalMessagess() {
-        return 1; 
+        return storedMessages.size(); 
     }
     // Stores messages in a JSON file
 public String storeMessage() {

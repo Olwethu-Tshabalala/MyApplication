@@ -68,9 +68,105 @@ public class MyApplication {
         // Display login result
         System.out.println();
         System.out.println("===== LOGIN RESULT =====");
-        System.out.println(
-                login.returnLoginStatus(loginUsername, loginPassword)
+        String loginStatus = login.returnLoginStatus(
+        loginUsername, loginPassword);
+
+System.out.println(loginStatus);
+
+if (login.loginUser(loginUsername, loginPassword)) {
+
+    System.out.println("\nWelcome to QuickChat.");
+
+    int option = 0;
+
+    while (option != 3) {
+
+        System.out.println("\n===== QUICKCHAT MENU =====");
+        System.out.println("1) Send Messages");
+        System.out.println("2) Show recently sent messages");
+        System.out.println("3) Quit");
+        System.out.print("Choose an option: ");
+
+        option = input.nextInt();
+        input.nextLine();
+
+        if (option == 1) {
+
+    System.out.print("How many messages would you like to send? ");
+    int numberOfMessages = input.nextInt();
+    input.nextLine();
+
+    int messagesSent = 0;
+
+    for (int i = 0; i < numberOfMessages; i++) {
+
+        System.out.println("\n===== MESSAGE " + (i + 1) + " =====");
+
+        System.out.print("Enter recipient cell number (+27...): ");
+        String recipient = input.nextLine();
+
+        System.out.print("Enter your message: ");
+        String messageText = input.nextLine();
+
+        String messageID = Message.generateMessageID();
+
+        Message newMessage = new Message(
+                messageID,
+                i,
+                recipient,
+                messageText
         );
+
+        if (!newMessage.checkRecipientCell()) {
+            System.out.println(
+                    "Cell phone number is incorrectly formatted or does not contain an international code. Please correct the number and try again."
+            );
+            i--;
+            continue;
+        }
+
+        String lengthResult = newMessage.checkMessageLength();
+
+        if (!lengthResult.equals("Message ready to send.")) {
+            System.out.println(lengthResult);
+            i--;
+            continue;
+        }
+
+        newMessage.createMessageHash();
+
+        System.out.println("\n" + newMessage.printMessages());
+
+        System.out.println("\nChoose what to do with this message:");
+        System.out.println("1) Send Message");
+        System.out.println("2) Disregard Message");
+        System.out.println("3) Store Message");
+        System.out.print("Enter your choice: ");
+
+        int messageChoice = input.nextInt();
+        input.nextLine();
+
+        System.out.println(newMessage.SentMessage(messageChoice));
+
+        if (messageChoice == 1) {
+            messagesSent++;
+        }
+    }
+
+    System.out.println("\nTotal messages sent: " + messagesSent);
+
+} else if (option == 2) {
+    System.out.println("Coming Soon.");
+} else if (option == 3) {
+            System.out.println("Goodbye!");
+        } else {
+            System.out.println("Invalid option. Please choose again.");
+        }
+    }
+
+} else {
+    System.out.println("Login failed. QuickChat cannot be opened.");
+}
 
         input.close();
     }
