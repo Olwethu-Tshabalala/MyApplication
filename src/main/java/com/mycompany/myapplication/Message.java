@@ -3,6 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.mycompany.myapplication;
+import java.io.FileWriter;
+import java.io.IOException;
 
 /**
  *
@@ -89,7 +91,7 @@ public class Message {
 
     // Returns the total number of messages sent
     public int returnTotalMessagess() {
-        return 1;
+        return 1; 
     }
     
 }
