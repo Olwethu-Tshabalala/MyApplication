@@ -121,7 +121,10 @@ public class MessageTest {
     @Test
     public void testStoreMessage() {
         Message message = new Message(
-                "1234567890", 0, "+27718693002", "Hi tonight");
+                "1234567890", 1,
+                "+27718693002", "Hi tonight");
+
+        message.createMessageHash();
 
         assertEquals(
                 "Message successfully stored.",
@@ -154,5 +157,16 @@ public class MessageTest {
         assertTrue(result.contains("Message Hash: 12:1:HITONIGHT"));
         assertTrue(result.contains("Recipient: +27718693002"));
         assertTrue(result.contains("Message: Hi tonight"));
+    }
+    @Test
+    public void testSecondMessageHash() {
+        Message message = new Message(
+                "1234567890", 2,
+                "+27857597589",
+                "Hi Keegan, did you receive the payment?");
+
+        assertEquals(
+                "12:2:HIPAYMENT",
+                message.createMessageHash());
     }
 }
