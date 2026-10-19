@@ -1,14 +1,8 @@
 [
   {
-    "MessageID": "1552840228",
-    "MessageHash": "15:0:HEYYOU",
-    "Recipient": "+27769759801",
-    "Message": "Hey mom, miss you."
-  },
-  {
-    "MessageID": "9464381764",
-    "MessageHash": "94:1:HEYYOU",
-    "Recipient": "+27769759802",
-    "Message": "Hey dad, how are you?"
+    "MessageID": "1234567890",
+    "MessageHash": "12:1:HITONIGHT",
+    "Recipient": "+27718693002",
+    "Message": "Hi tonight"
   }
 ]
