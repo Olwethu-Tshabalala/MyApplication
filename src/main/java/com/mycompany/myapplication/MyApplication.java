@@ -117,12 +117,13 @@ if (login.loginUser(loginUsername, loginPassword)) {
                 messageText
         );
 
-        if (!newMessage.checkRecipientCell()) {
-            System.out.println(
-                    "Cell phone number is incorrectly formatted or does not contain an international code. Please correct the number and try again."
-            );
-            i--;
-            continue;
+        String recipientResult = newMessage.checkRecipientCell();
+
+if (!recipientResult.equals(
+        "Cell phone number successfully captured.")) {
+    System.out.println(recipientResult);
+    i--;
+    continue;
         }
 
         String lengthResult = newMessage.checkMessageLength();
@@ -148,12 +149,26 @@ if (login.loginUser(loginUsername, loginPassword)) {
 
         System.out.println(newMessage.SentMessage(messageChoice));
 
-        if (messageChoice == 1) {
-            messagesSent++;
-        }
-    }
+if (messageChoice == 1) {
+    messagesSent++;
+    newMessage.increaseTotalMessagesSent();
 
-    System.out.println("\nTotal messages sent: " + messagesSent);
+} else if (messageChoice == 2) {
+
+    System.out.print("Enter 0 to delete the message, or another number to keep it: ");
+    int deleteChoice = input.nextInt();
+    input.nextLine();
+
+    if (deleteChoice == 0) {
+        System.out.println("Message deleted.");
+    } else {
+        System.out.println("Message disregarded.");
+    }
+}
+    } 
+
+    System.out.println("\nTotal messages sent: "
+        + Message.getTotalMessagesSent()); 
 
 } else if (option == 2) {
     System.out.println("Coming Soon.");

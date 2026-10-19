@@ -20,16 +20,27 @@ public class Message {
     private String recipient;
     private String message;
     private String messageHash;
+    private static int totalMessagesSent = 0;
+    
+    // Returns the total number of messages sent
+public static int getTotalMessagesSent() {
+    return totalMessagesSent;
+}
+    
+    // Increases the total when a message is sent
+public void increaseTotalMessagesSent() {
+    totalMessagesSent++;
+}
     
     // Generates a random ten-digit message ID
 public static String generateMessageID() {
 
     Random random = new Random();
 
-    long number = 1000000000L
-            + (long) (random.nextDouble() * 9000000000L);
+    long number = (long) (random.nextDouble()
+            * 10000000000L);
 
-    return String.valueOf(number);
+    return String.format("%010d", number);
 }
 
     // Constructor
@@ -48,15 +59,18 @@ public static String generateMessageID() {
     }
 
     // Checks that the recipient number uses the international format
-    public boolean checkRecipientCell() {
-        return recipient != null
-                && recipient.matches("\\+27[0-9]{9}");
+    public String checkRecipientCell() {
+        if (recipient != null
+                && recipient.matches("\\+27[0-9]{9}")) {
+            return "Cell phone number successfully captured.";
+        } else {
+            return "Cell phone number is incorrectly formatted or does not contain an international code. Please correct the number and try again.";
+        }
     }
-    // Creates the message hash
-    public String createMessageHash() {
+    // Creates the message hash without using arrays
+public String createMessageHash() {
 
     String firstTwoDigits = messageID.substring(0, 2);
-
     String trimmedMessage = message.trim();
 
     int firstSpace = trimmedMessage.indexOf(' ');
@@ -72,6 +86,9 @@ public static String generateMessageID() {
         firstWord = trimmedMessage.substring(0, firstSpace);
         lastWord = trimmedMessage.substring(lastSpace + 1);
     }
+
+    firstWord = firstWord.replaceAll("[^a-zA-Z0-9]", "");
+    lastWord = lastWord.replaceAll("[^a-zA-Z0-9]", "");
 
     messageHash = (firstTwoDigits + ":"
             + messageNumber + ":"
@@ -93,9 +110,10 @@ public static String generateMessageID() {
                 + "; please reduce the size.";
     }
     // Allows the user to choose what to do with the message
-    public String SentMessage(int choice) {
+public String SentMessage(int choice) {
 
-        if (choice == 1) {
+    if (choice == 1) {
+        increaseTotalMessagesSent();
         return "Message successfully sent.";
     } else if (choice == 2) {
         return "Press 0 to delete the message.";
@@ -103,7 +121,7 @@ public static String generateMessageID() {
         return storeMessage();
     } else {
         return "Invalid option. Please choose again.";
-        }
+    }
     }
     // Displays the message details
     public String printMessages() {
@@ -114,8 +132,8 @@ public static String generateMessageID() {
     }
 
     // Returns the total number of messages sent
-    public int returnTotalMessagess() {
-        return storedMessages.size(); 
+public int returnTotalMessagess() {
+    return totalMessagesSent; 
     }
     // Stores messages in a JSON file
 public String storeMessage() {
