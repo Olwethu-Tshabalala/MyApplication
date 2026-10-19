@@ -151,7 +151,6 @@ if (!recipientResult.equals(
 
 if (messageChoice == 1) {
     messagesSent++;
-    newMessage.increaseTotalMessagesSent();
 
 } else if (messageChoice == 2) {
 
