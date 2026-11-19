@@ -169,4 +169,82 @@ public class MessageTest {
                 "12:2:HIPAYMENT",
                 message.createMessageHash());
     }
+    @Test
+public void testSentMessagesArray() {
+
+    Message message1 = new Message(
+            "1111111111", 1, "+27834557896",
+            "Did you get the cake?");
+
+    Message message2 = new Message(
+            "2222222222", 2, "0838884567",
+            "It is dinner time !");
+
+    message1.SentMessage(1);
+    message2.SentMessage(1);
+
+    assertEquals("Did you get the cake?",
+            Message.getSentMessage(Message.getSentMessagesCount() - 2));
+
+    assertEquals("It is dinner time !",
+            Message.getSentMessage(Message.getSentMessagesCount() - 1));
+}
+@Test
+public void testDisregardedMessagesArray() {
+
+    Message message = new Message(
+            "3333333333", 3, "+27834484567",
+            "Yohoooo, I am at your gate.");
+
+    message.SentMessage(2);
+
+    assertEquals(
+            "Yohoooo, I am at your gate.",
+            Message.getDisregardedMessage(
+                    Message.getDisregardedMessagesCount() - 1));
+}
+@Test
+public void testStoredMessagesArray() {
+
+    Message message1 = new Message(
+            "4444444444", 4, "+27838884567",
+            "Where are you? You are late! I have asked you to be on time.");
+
+    Message message2 = new Message(
+            "5555555555", 5, "+27838884567",
+            "Ok, I am leaving without you.");
+
+    message1.SentMessage(3);
+    message2.SentMessage(3);
+
+    assertTrue(Message.getStoredMessagesCount() >= 2);
+}
+@Test
+public void testMessageIDArray() {
+
+    Message message = new Message(
+            "6666666666", 6, "+27834557896",
+            "Testing message ID array.");
+
+    message.SentMessage(1);
+
+    assertEquals(
+            "6666666666",
+            Message.getMessageID(Message.getMessageIDsCount() - 1));
+}
+@Test
+public void testMessageHashArray() {
+
+    Message message = new Message(
+            "7777777777", 7, "+27834557896",
+            "Testing hash array.");
+
+    String expectedHash = message.createMessageHash();
+
+    message.SentMessage(1);
+
+    assertEquals(
+            expectedHash,
+            Message.getMessageHash(Message.getMessageHashesCount() - 1));
+}
 }
