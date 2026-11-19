@@ -7,20 +7,14 @@
   },
   {
     "MessageID": "4444444444",
-    "MessageHash": "44:0:WHERETIME",
+    "MessageHash": "null",
     "Recipient": "+27838884567",
     "Message": "Where are you? You are late! I have asked you to be on time."
   },
   {
     "MessageID": "5555555555",
-    "MessageHash": "55:0:OKYOU",
+    "MessageHash": "null",
     "Recipient": "+27838884567",
     "Message": "Ok, I am leaving without you."
-  },
-  {
-    "MessageID": "7909973464",
-    "MessageHash": "79:0:WHERETIME",
-    "Recipient": "+27838884567",
-    "Message": "Where are you? You are late. I told you to be on time"
   }
 ]
