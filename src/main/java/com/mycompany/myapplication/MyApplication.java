@@ -15,6 +15,7 @@ public class MyApplication {
     public static void main(String[] args) {
 
         Scanner input = new Scanner(System.in);
+        Message.loadStoredMessages();
 
         System.out.println("===== REGISTRATION =====");
 
@@ -85,6 +86,7 @@ if (login.loginUser(loginUsername, loginPassword)) {
         System.out.println("1) Send Messages");
         System.out.println("2) Show recently sent messages");
         System.out.println("3) Quit");
+        System.out.println("4) Stored Messages");
         System.out.print("Choose an option: ");
 
         option = input.nextInt();
@@ -170,16 +172,77 @@ if (messageChoice == 1) {
         + Message.getTotalMessagesSent()); 
 
 } else if (option == 2) {
+
     System.out.println("Coming Soon.");
+
 } else if (option == 3) {
-            System.out.println("Goodbye!");
-        } else {
-            System.out.println("Invalid option. Please choose again.");
-        }
-    }
+
+    System.out.println("Goodbye!");
+
+} else if (option == 4) {
+
+    System.out.println("\n===== STORED MESSAGES =====");
+    System.out.println("1) Display senders and recipients");
+    System.out.println("2) Display longest message");
+    System.out.println("3) Search message by ID");
+    System.out.println("4) Search messages by recipient");
+    System.out.println("5) Delete message using Message Hash");
+    System.out.println("6) Display full message report");
+    System.out.println("7) Back to main menu");
+
+    System.out.print("Choose an option: ");
+    int storedOption = input.nextInt();
+    input.nextLine();
+    
+    if (storedOption == 1) {
+
+    System.out.println("\n" +
+            Message.displaySendersAndRecipients(
+                    registration.getFirstName() + " "
+                    + registration.getLastName()));
+
+}else if (storedOption == 2) {
+
+    System.out.println("\nLongest stored message:");
+    System.out.println(Message.displayLongestMessage());
+
+}else if (storedOption == 3) {
+
+    System.out.print("Enter Message ID: ");
+    String searchID = input.nextLine();
+
+    System.out.println(
+            Message.searchMessageByID(searchID));
+
+}else if (storedOption == 4) {
+
+    System.out.print("Enter recipient number: ");
+    String searchRecipient = input.nextLine();
+
+    System.out.println(
+            Message.searchMessagesByRecipient(searchRecipient));
+
+}else if (storedOption == 5) {
+
+    System.out.print("Enter Message Hash: ");
+    String searchHash = input.nextLine();
+
+    System.out.println(
+            Message.deleteMessageByHash(searchHash));
+
+}else if (storedOption == 6) {
+
+    System.out.println("\n===== FULL MESSAGE REPORT =====");
+
+    System.out.println(Message.displayMessageReport());
+
+}
 
 } else {
-    System.out.println("Login failed. QuickChat cannot be opened.");
+
+    System.out.println("Invalid option. Please choose again.");
+}
+    }
 }
 
         input.close();
